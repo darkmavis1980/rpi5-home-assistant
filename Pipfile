@@ -7,6 +7,8 @@ name = "pypi"
 pimoroni-bme280 = "*"
 pymysql = "*"
 configparser = "*"
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 
