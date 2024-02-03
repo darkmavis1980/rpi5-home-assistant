@@ -60,7 +60,7 @@ def read_root(room_id: int):
 def read_current_temperature(room_id: int):
     temperatures = readLastTemperature(room_id)
     room = getRoom(room_id)
-    room.temperatures = temperatures
+    room.current = temperatures
     return room
 
 @app.post("/rooms/")

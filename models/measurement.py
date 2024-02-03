@@ -10,4 +10,4 @@ class Measurement(BaseModel):
     humidity: Decimal
     pressure: Decimal
     created_at: datetime
-    room_id: Optional[int] = None
+    # room_id: Optional[int] = None

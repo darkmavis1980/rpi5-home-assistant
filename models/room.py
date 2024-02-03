@@ -7,3 +7,4 @@ class Room(BaseModel):
     name: str
     label: str
     temperatures: Optional[List[Measurement]] = None
+    current: Optional[Measurement] = None
