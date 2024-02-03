@@ -1,0 +1,17 @@
+version: '3'
+services:
+  db:
+    container_name: mariadb
+    image: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: templogs
+      MARIADB_USER: user
+      MARIADB_PASSWORD: password
+    volumes:
+     - homeAssistantDB:/var/lib/mysql
+volumes:
+  homeAssistantDB: {}
