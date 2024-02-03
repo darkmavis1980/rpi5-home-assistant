@@ -1,0 +1,10 @@
+CREATE DATABASE templogs;
+
+CREATE TABLE `measurements` (
+  id INT(11) NOT NULL auto_increment AUTO_INCREMENT,
+  `temperature` DECIMAL DEFAULT 0.0 NOT NULL,
+  `humidity` DECIMAL DEFAULT 0.0 NOT NULL,
+  `pressure` DECIMAL DEFAULT 0.0 NOT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
