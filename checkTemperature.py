@@ -44,10 +44,3 @@ def readData():
 
 if __name__ == "__main__":
     readData()
-
-    # while True:
-    #     temperature = bme280.get_temperature()
-    #     pressure = bme280.get_pressure()
-    #     humidity = bme280.get_humidity()
-    #     print(f"{temperature:05.2f}°C {pressure:05.2f}hPa {humidity:05.2f}%")
-    #     time.sleep(1)
