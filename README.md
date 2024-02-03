@@ -21,6 +21,10 @@ pipenv shell
 pipenv install
 ```
 
+### Create database
+
+
+
 ## Create cronjob
 
 ```sh
