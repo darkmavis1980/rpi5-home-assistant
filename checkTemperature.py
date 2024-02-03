@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import time
-from lib.db import getDB
+from lib.db import getDB, queryDB
 from smbus2 import SMBus
 from bme280 import BME280
 
@@ -36,8 +36,8 @@ def readData():
             pressure = bme280.get_pressure()
             humidity = bme280.get_humidity()
             print(f"{temperature:05.2f}°C {pressure:05.2f}hPa {humidity:05.2f}%")
-            sql = "INSERT INTO `measurements` (`temperature`, `humidity`, `pressure`) VALUES (%s, %s, %s)"
-            cursor.execute(sql, (temperature, humidity, pressure))
+            sql = "INSERT INTO `measurements` (`temperature`, `humidity`, `pressure`, `room_id`) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql, (temperature, humidity, pressure, 1))
         # connection is not autocommit by default. So you must commit to save
         # your changes.
         connection.commit()

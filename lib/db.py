@@ -12,3 +12,10 @@ def getDB():
     )
 
     return db
+
+def queryDB(sql: str, params = None):
+    connection = getDB()
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(sql, params)
+            return cursor
