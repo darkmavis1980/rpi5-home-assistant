@@ -1,0 +1,5 @@
+configparser==6.0.0
+i2cdevice==1.0.0 ; python_version >= '3.7'
+pimoroni-bme280==1.0.0
+pymysql==1.1.0
+smbus2==0.4.3
