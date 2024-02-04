@@ -2,3 +2,5 @@ __pycache__
 venv
 .notes
 conf.ini
+supervisord.*
+!supervisord.conf
