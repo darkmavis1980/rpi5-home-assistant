@@ -13,5 +13,17 @@ services:
       MARIADB_PASSWORD: password
     volumes:
      - homeAssistantDB:/var/lib/mysql
+  influxdb:
+    image: influxdb:latest
+    volumes:
+      - influxdbStorage:/var/lib/influxdb2:rw
+    env_file:
+      - ./influxdb/.env
+    entrypoint: ["./influxdb/entrypoint.sh"]
+    restart: on-failure:10
+    ports:
+      - ${DOCKER_INFLUXDB_INIT_PORT}:8086
+
 volumes:
   homeAssistantDB: {}
+  influxdbStorage: {}

@@ -4,3 +4,4 @@ venv
 conf.ini
 supervisord.*
 !supervisord.conf
+.env
