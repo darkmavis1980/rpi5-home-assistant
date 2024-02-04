@@ -24,3 +24,7 @@ UPDATE `measurements` SET room_id = 1;
 INSERT INTO `rooms` (name, label) VALUES ('office', 'Office');
 
 ALTER TABLE measurements ADD FOREIGN KEY (room_id) REFERENCES rooms(id);
+
+ALTER TABLE templogs.measurements MODIFY COLUMN temperature decimal(10,2) DEFAULT 0 NOT NULL;
+ALTER TABLE templogs.measurements MODIFY COLUMN humidity decimal(10,2) DEFAULT 0 NOT NULL;
+ALTER TABLE templogs.measurements MODIFY COLUMN pressure decimal(10,2) DEFAULT 0 NOT NULL;
