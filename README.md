@@ -10,15 +10,16 @@
 ### Software
 
 - Python 3.9+
-- Pipenv
 
 ### Setup
 
 ```sh
-# Create shell
-pipenv shell
+# Create virtual environment
+python3 -m venv venv
+# Activate it
+source ./venv/bin/activate
 # Install dependencies
-pipenv install
+pip install -r requirements.txt
 ```
 
 ### Create database
@@ -38,7 +39,7 @@ sudo crontab -e
 
 ```sh
 # Run uvicorn against 0.0.0.0, so it can be accessible to other machines
-pipenv run uvicorn main:app --reload --host=0.0.0.0
+uvicorn main:app --reload --host=0.0.0.0
 ```
 
 Once it's running just go to the IP address of the server with the port `8000`, example: http://192.168.0.100:8000.
@@ -47,4 +48,21 @@ If you don't know the IP of the server, you can simply run the following command
 
 ```sh
 hostname -I
+```
+
+## Run it as a service
+
+Run the uvicorn server with `supervisord`:
+
+```sh
+supervisor
+
+# Or run it in foreground
+supervisor -n
+```
+
+Then to stop it:
+
+```sh
+pkill -f supervisord
 ```
