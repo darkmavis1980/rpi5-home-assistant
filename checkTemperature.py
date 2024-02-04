@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 
 import time
-import decimal
-from lib.db import getDB, queryDB, writeInfluxDB
+from datetime import datetime
 from influxdb_client import Point, WritePrecision
-from lib.conf import getConfig
 from smbus2 import SMBus
 from bme280 import BME280
-from datetime import datetime
+from lib.db import write_influx_DB, get_db
+from lib.conf import get_config
 
 # print(
 #     """all-values.py - Read temperature, pressure, and humidity
@@ -24,7 +23,8 @@ pressure = bme280.get_pressure()
 humidity = bme280.get_humidity()
 
 
-def readData():
+def read_temperature_data():
+    """Read the temperature data from the sensor and save it in the databases"""
     temperature = bme280.get_temperature()
     pressure = bme280.get_pressure()
     humidity = bme280.get_humidity()
@@ -33,9 +33,9 @@ def readData():
     
     room_id = 1
 
-    config = getConfig()
+    config = get_config()
 
-    connection = getDB()
+    connection = get_db()
     try:
         with connection:
             with connection.cursor() as cursor:
@@ -57,9 +57,9 @@ def readData():
                     .field("pressure", pressure) \
                     .field("humidity", humidity) \
                     .time(datetime.utcnow(), WritePrecision.NS)
-                writeInfluxDB(point)
+                write_influx_DB(point)
     except:
         print("Cannot save to the db")
 
 if __name__ == "__main__":
-    readData()
+    read_temperature_data()

@@ -1,11 +1,11 @@
 import pymysql
-from lib.conf import getConfig
-from influxdb_client import InfluxDBClient, Point, WritePrecision
+from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
+from lib.conf import get_config
 
-
-def getDB():
-    config = getConfig()
+def get_db():
+    """Get the db connection"""
+    config = get_config()
     # print('connecting to db {}'.format(config.get('DATABASE', 'HOST')))
     db = pymysql.connect(
         host=config.get('DATABASE', 'HOST'),
@@ -16,15 +16,17 @@ def getDB():
 
     return db
 
-def queryDB(sql: str, params = None):
-    connection = getDB()
+def query_db(sql: str, params = None):
+    """Query the database with the passed SQL string"""
+    connection = get_db()
     with connection:
         with connection.cursor() as cursor:
             cursor.execute(sql, params)
             return cursor
 
-def writeInfluxDB(data: str):
-    config = getConfig()
+def write_influx_DB(data: str):
+    """Write data into InfluxDB"""
+    config = get_config()
     bucket = config.get('INFLUXDB', 'BUCKET')
     org = config.get('INFLUXDB', 'ORG')
     token = config.get('INFLUXDB', 'TOKEN')
