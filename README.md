@@ -55,10 +55,10 @@ hostname -I
 Run the uvicorn server with `supervisord`:
 
 ```sh
-supervisor
+supervisord
 
 # Or run it in foreground
-supervisor -n
+supervisord -n
 ```
 
 Then to stop it:
