@@ -34,7 +34,7 @@ def read_temperature_data():
     # ignoring first read, as it's always wrong
     time.sleep(1)
     
-    room_id = 1
+    room_id = 2  
 
     config = get_config()
 
@@ -60,7 +60,8 @@ def read_temperature_data():
                     .field("humidity", humidity) \
                     .time(datetime.utcnow(), WritePrecision.NS)
                 write_influx_DB(point)
-    except:
+    except Exception as e:
+        print(e)
         print("Cannot save to the db")
 
 if __name__ == "__main__":
