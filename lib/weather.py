@@ -32,7 +32,8 @@ def get_weather(address: str):
     """Query OpenMeteo (https://open-meteo.com) to get current weather data"""
     coords = get_coords(address)
     weather = {}
-    res = requests.get("https://api.open-meteo.com/v1/forecast?latitude=" + str(coords[0]) + "&longitude=" + str(coords[1]) + "&current_weather=true")
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={str(coords[0])}&longitude={str(coords[1])}&current_weather=true"
+    res = requests.get(url, timeout=2)
     if res.status_code == 200:
         j = json.loads(res.text)
         current = j["current_weather"]
