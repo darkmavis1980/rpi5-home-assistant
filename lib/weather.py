@@ -47,7 +47,6 @@ def get_weather(address: str):
 
 def get_forecasts():
     """Get the forecast with the current address"""
-
     has_redis = False
 
     if config.get('REDIS', 'USE_REDIS') == 'yes':
