@@ -36,6 +36,7 @@ def get_weather(address: str):
     if res.status_code == 200:
         j = json.loads(res.text)
         current = j["current_weather"]
+        weather["address"] = address
         weather["temperature"] = current["temperature"]
         weather["windspeed"] = current["windspeed"]
         weather["weathercode"] = current["weathercode"]
