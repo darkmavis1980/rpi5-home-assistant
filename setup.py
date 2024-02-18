@@ -6,34 +6,34 @@ import configparser
 
 filePath = './conf/conf.ini'
 
-def createConfig():
+def create_config():
+    """Create configuration file"""
     config = configparser.ConfigParser()
 
     print("Creating MySQL Connection...")
     host = input('Please enter host: (defaults to localhost)').strip() or 'localhost'
     username = input('Please enter username:').strip() or ''
     password = input('Please enter password:').strip() or ''
-    dbName = input('Please enter db name:').strip() or ''
+    db_name = input('Please enter db name:').strip() or ''
     port = input('Please enter port: (defaults to 3306)').strip() or '3306'
 
     config.add_section('DATABASE')
     config.set('DATABASE', 'HOST', host)
     config.set('DATABASE', 'USERNAME', username)
     config.set('DATABASE', 'PASSWORD', password)
-    config.set('DATABASE', 'DB', dbName)
-    config.set('DATABASE', 'PORT', port)    
+    config.set('DATABASE', 'DB', db_name)
+    config.set('DATABASE', 'PORT', port)
 
     print("Creating InfluxDB Connection...")
     config.add_section('INFLUXDB')
 
     use_influx = input('Do you want to use InfluxDB? (yes/no)') or 'yes'
 
-    if use_influx.lower() == 'yes':       
+    if use_influx.lower() == 'yes':
         influx_host = input('Please enter host: (defaults to localhost)').strip() or 'localhost'
         influx_token = input('Please enter access token:').strip() or ''
         influx_bucket = input('Please enter bucket:').strip() or ''
         influx_org = input('Please enter organization:').strip() or ''
-        
         config.set('INFLUXDB', 'USE_INFLUX', 'yes')
         config.set('INFLUXDB', 'HOST', influx_host)
         config.set('INFLUXDB', 'TOKEN', influx_token)
@@ -42,12 +42,25 @@ def createConfig():
     else:
         config.set('INFLUXDB', 'USE_INFLUX', 'no')
 
-    with open(filePath, 'w') as configfile:
+    use_redis = input('Do you want to use Redis? (yes/no)') or 'yes'
+
+    if use_redis.lower() == 'yes':
+        redis_host = input('Please enter host: (defaults to localhost)').strip() or 'localhost'
+        redis_port = input('Please enter post: (defaults to 6379)').strip() or '6379'
+        redis_password = input('Please enter Redis password:').strip() or ''
+        config.set('REDIS', 'USE_REDIS', 'yes')
+        config.set('REDIS', 'HOST', redis_host)
+        config.set('REDIS', 'PORT', redis_port)
+        config.set('REDIS', 'TOKEN', redis_password)
+    else:
+        config.set('REDIS', 'USE_REDIS', 'no')
+
+    with open(filePath, 'w', encoding="utf-8") as configfile:
         config.write(configfile)
 
 if __name__ == "__main__":
-    if (os.path.isfile(filePath) is False):
+    if os.path.isfile(filePath) is False:
         print('Creating configuration file')
-        createConfig()
+        create_config()
     else:
         print('File already exists')

@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
 import json
+import redis
+from lib.conf import get_config
+
+config = get_config()
 
 try:
     import requests
@@ -15,6 +19,7 @@ except ImportError:
 CITY = "Dublin"
 COUNTRYCODE = "IE"
 WARNING_TEMP = 25.0
+CACHE_TIMEOUT = 60 * 5
 
 def get_coords(address: str):
     """Convert a city name and country code to latitude and longitude"""
@@ -40,6 +45,25 @@ def get_weather(address: str):
 
 def get_forecasts():
     """Get the forecast with the current address"""
+
+    has_redis = False
+
+    if config.get('REDIS', 'USE_REDIS') == 'yes':
+        has_redis = True
+        host = config.get('REDIS', 'HOST') or 'localhost'
+        port = config.get('REDIS', 'PORT') or 6379
+        redis_password = config.get('REDIS', 'PASSWORD') or ''
+        print(host, port, redis_password)
+        r = redis.Redis(host=host, port=port, password=redis_password, decode_responses=True)
+
+        data = r.get('forecast')
+        if data is not None:
+            print('Fetching data from cache')
+            return json.loads(data)
+
     location_string = f"{CITY}, {COUNTRYCODE}"
     weather = get_weather(location_string)
+    if has_redis is True:
+        print('Cache not set, writing to it')
+        r.set('forecast', json.dumps(weather), ex=CACHE_TIMEOUT)
     return weather
