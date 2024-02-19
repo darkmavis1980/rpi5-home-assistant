@@ -16,10 +16,84 @@ try:
 except ImportError:
     exit("This script requires the geocoder module\nInstall with: sudo pip install geocoder")
 
+# Address
 CITY = "Dublin"
 COUNTRYCODE = "IE"
 WARNING_TEMP = 25.0
+# Cache timeout
 CACHE_TIMEOUT = 60 * 5
+
+# This maps the weather code from Open Meteo
+# to the appropriate weather icons
+# Weather codes from https://open-meteo.com/en/docs
+icon_map = {
+    "snow": [71, 73, 75, 77, 85, 86],
+    "rain": [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82],
+    "cloud": [1, 2, 3, 45, 48],
+    "sun": [0],
+    "storm": [95, 96, 99],
+    "wind": []
+}
+
+"""
+Code	Description
+0	Clear sky
+1, 2, 3	Mainly clear, partly cloudy, and overcast
+45, 48	Fog and depositing rime fog
+51, 53, 55	Drizzle: Light, moderate, and dense intensity
+56, 57	Freezing Drizzle: Light and dense intensity
+61, 63, 65	Rain: Slight, moderate and heavy intensity
+66, 67	Freezing Rain: Light and heavy intensity
+71, 73, 75	Snow fall: Slight, moderate, and heavy intensity
+77	Snow grains
+80, 81, 82	Rain showers: Slight, moderate, and violent
+85, 86	Snow showers slight and heavy
+95 *	Thunderstorm: Slight or moderate
+96, 99 *	Thunderstorm with slight and heavy hail
+"""
+icon_map_detailed = {
+    "clear": [0],
+    "mostly_clear": [1],
+    "partly_cloudy": [2],
+    "overcast": [3],
+    "fog": [45, 48],
+    "drizzle": [51, 53, 55],
+    "rain_light": [61],
+    "rain": [63],
+    "rain_heavy": [65],
+    "rain_freeze_light": [66],
+    "rain_freeze_heavy": [67],
+    "snow_light": [71],
+    "snow": [73],
+    "snow_heavy": [75],
+    "hail": [77],
+    "rain_shower_light": [80],
+    "rain_shower": [81],
+    "rain_shower_heavy": [82],
+    "thunderstorm": [95],
+    "thunderstorm_hail": [96],
+    "thunderstorm_hail_heavy": [99],
+}
+
+def get_weather_icon(weathercode: int):
+    """Get the weather icon"""
+    weather_icon = None
+    for icon in icon_map:
+        if weathercode in icon_map[icon]:
+            weather_icon = icon
+            break
+
+    return weather_icon
+
+def get_weather_icon_detailed(weathercode: int):
+    """Get the weather icon"""
+    weather_icon = None
+    for icon in icon_map_detailed:
+        if weathercode in icon_map_detailed[icon]:
+            weather_icon = icon
+            break
+
+    return weather_icon
 
 def get_coords(address: str):
     """Convert a city name and country code to latitude and longitude"""
@@ -41,6 +115,8 @@ def get_weather(address: str):
         weather["temperature"] = current["temperature"]
         weather["windspeed"] = current["windspeed"]
         weather["weathercode"] = current["weathercode"]
+        weather["icon"] = get_weather_icon(current["weathercode"])
+        weather["icon_detailed"] = get_weather_icon_detailed(current["weathercode"])
         return weather
     else:
         return weather
