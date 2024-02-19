@@ -35,7 +35,7 @@ sudo crontab -e
 */5 * * * * cd <path to project>; ./cron.sh >> /var/log/cronlogs.log 2>&1
 ```
 
-## Run the API
+## Run the API with Uvicorn
 
 ```sh
 # Run uvicorn against 0.0.0.0, so it can be accessible to other machines
@@ -50,7 +50,7 @@ If you don't know the IP of the server, you can simply run the following command
 hostname -I
 ```
 
-## Run it as a service
+## Run it as a service with Supervisord
 
 Run the uvicorn server with `supervisord`:
 
