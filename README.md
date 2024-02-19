@@ -66,3 +66,23 @@ Then to stop it:
 ```sh
 pkill -f supervisord
 ```
+
+## Run it with Docker
+
+Build the image:
+
+```sh
+docker build -t raspi-temp .
+```
+
+Run the container:
+
+```sh
+docker run --rm -d --name raspi-temp -p 8000:8000 raspi-temp
+```
+
+Stop the container:
+
+```sh
+docker stop raspi-temp
+```
