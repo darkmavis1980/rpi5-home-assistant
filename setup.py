@@ -24,6 +24,14 @@ def create_config():
     config.set('DATABASE', 'DB', db_name)
     config.set('DATABASE', 'PORT', port)
 
+    print("Creating sensor configuration")
+
+    room_id = input('Please enter room ID: (defaults to None)').strip() or None
+    sensor_type = input('Please enter sensor type: (defaults to BME280)').strip() or 'bme280'
+    config.add_section('SENSOR')
+    config.set('SENSOR', 'ROOM_ID', room_id)
+    config.set('SENSOR', 'TYPE', sensor_type.lower())
+
     print("Creating InfluxDB Connection...")
     config.add_section('INFLUXDB')
 
