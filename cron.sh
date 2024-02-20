@@ -2,5 +2,5 @@
 
 cd $(pwd)
 source venv/bin/activate
-python ./checkTemperature.py
+python ./cron.py
 
