@@ -8,6 +8,7 @@ from lib.db import write_influx_DB, get_db
 from lib.conf import get_config
 
 def read_temperature_data():
+    """Read data from sensors and store in the databases"""
     config = get_config()
 
     sensor_type = config.get('SENSOR', 'TYPE')
