@@ -1,10 +1,13 @@
+"""Measurement model module"""
+
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+# from typing import Optional
 
 from pydantic import BaseModel
 
 class Measurement(BaseModel):
+    """Measurement model"""
     id: int
     temperature: Decimal
     humidity: Decimal
