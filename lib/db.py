@@ -20,11 +20,11 @@ def query_db(sql: str, params = None):
     """Query the database with the passed SQL string"""
     connection = get_db()
     with connection:
-        with connection.cursor() as cursor:
+        with connection.cursor(pymysql.cursors.DictCursor) as cursor:
             cursor.execute(sql, params)
             return cursor
 
-def write_influx_DB(data: str):
+def write_influx_db(data: str):
     """Write data into InfluxDB"""
     config = get_config()
     bucket = config.get('INFLUXDB', 'BUCKET')

@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 from influxdb_client import Point, WritePrecision
 from lib.sensor import Sensor
-from lib.db import write_influx_DB, get_db
+from lib.db import write_influx_db, get_db
 from lib.conf import get_config
 
 def read_temperature_data():
@@ -47,7 +47,7 @@ def read_temperature_data():
                     .field("pressure", pressure) \
                     .field("humidity", humidity) \
                     .time(datetime.utcnow(), WritePrecision.NS)
-                write_influx_DB(point)
+                write_influx_db(point)
     except:
         print("Cannot save to the db")
 
