@@ -1,6 +1,6 @@
 from lib.db import query_db
 from models.measurement import Measurement
-from models.room import Room
+from models.room import RoomWithTemperature, Room
 
 def read_room_temperatures(room_id: int):
     """Get the list of temperatures from a given room"""
@@ -32,24 +32,14 @@ def get_room_by_id(room_id: int):
     })
     return room
 
-def get_rooms():
+def get_rooms() -> list[Room]:
     """Get list of rooms"""
     sql = "SELECT * FROM rooms"
     cursor = query_db(sql)
     results = cursor.fetchall()
-    data = []
-    for row in results:
-        item = Measurement(**{
-            "id": row[0],
-            "temperature": row[1],
-            "humidity": row[2],
-            "pressure": row[3],
-            "created_at": row[4]
-        })
-        data.append(item)
-    return data
+    return results
 
-def read_last_room_temperature(room_id: int):
+def read_last_room_temperature(room_id: int) -> Measurement:
     """Read the last temperature for a given room"""
     sql = "SELECT * FROM measurements WHERE room_id = %s ORDER BY created_at DESC LIMIT 1"
     cursor = query_db(sql, room_id)  
