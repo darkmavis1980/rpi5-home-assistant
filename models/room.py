@@ -10,7 +10,7 @@ class Room(BaseModel):
     id: int
     name: str
     label: str
-    created_at: datetime
+    created_at: Optional[datetime]
 
 class RoomWithTemperature(Room):
     """Room model with temperature fields"""

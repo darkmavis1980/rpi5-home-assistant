@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from lib.room import get_room_by_id, read_last_room_temperature, read_room_temperatures, get_rooms
 from lib.weather import get_forecasts
-from models.room import Room
+from models.room import Room, RoomWithTemperature
 
 app = FastAPI()
 
@@ -31,11 +31,12 @@ def get_list_rooms():
     return results
 
 @app.get("/rooms/{room_id}/current")
-def read_current_temperature(room_id: int):
+def read_current_temperature(room_id: int) -> RoomWithTemperature:
     """Fetch the curren temperature from a room"""
     temperatures = read_last_room_temperature(room_id)
     room = get_room_by_id(room_id)
-    room.current = temperatures
+
+    room['current'] = temperatures
     return room
 
 @app.post("/rooms/")

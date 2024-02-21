@@ -1,6 +1,6 @@
 from lib.db import query_db
 from models.measurement import Measurement
-from models.room import RoomWithTemperature, Room
+from models.room import Room
 
 def read_room_temperatures(room_id: int):
     """Get the list of temperatures from a given room"""
@@ -10,11 +10,11 @@ def read_room_temperatures(room_id: int):
     data = []
     for row in results:
         item = Measurement(**{
-            "id": row[0],
-            "temperature": row[1],
-            "humidity": row[2],
-            "pressure": row[3],
-            "created_at": row[4]
+            "id": row.id,
+            "temperature": row.temperature,
+            "humidity": row.humidity,
+            "pressure": row.pressure,
+            "created_at": row.created_at,
         })
         data.append(item)
     return data
@@ -24,12 +24,12 @@ def get_room_by_id(room_id: int):
     sql = "SELECT * FROM rooms WHERE id = %s"
     cursor = query_db(sql, room_id)
     result = cursor.fetchone()
-    room = Room(**{
-        "id": result[0],
-        "name": result[1],
-        "label": result[2],
-        "created_at": result[3]
-    })
+    room = {
+        "id": result['id'],
+        "name": result['name'],
+        "label": result['label'],
+        "created_at": result['created_at']
+    }
     return room
 
 def get_rooms() -> list[Room]:
@@ -45,11 +45,11 @@ def read_last_room_temperature(room_id: int) -> Measurement:
     cursor = query_db(sql, room_id)  
     result = cursor.fetchone()
     item = Measurement(**{
-        "id": result[0],
-        "temperature": result[1],
-        "humidity": result[2],
-        "pressure": result[3],
-        "created_at": result[4]
+        "id": result['id'],
+        "temperature": result['temperature'],
+        "humidity": result['humidity'],
+        "pressure": result['pressure'],
+        "created_at": result['created_at'],
     })
 
     return item
