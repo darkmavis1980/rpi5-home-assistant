@@ -4,12 +4,13 @@
 
 ### Hardware
 
-- BME280 Sensor
-- Raspberry Pi 3+/4/5
+- BME280 or BME680 Sensors
+- Raspberry Pi 3+/4/5, Raspberry Pi Zero 2W
 
 ### Software
 
 - Python 3.9+
+- Docker (Optional)
 
 ### Setup
 
@@ -24,7 +25,7 @@ pip install -r requirements.txt
 
 ### Create database
 
-
+You must run the [create](./db/create.sql) file in the database to create the necessary tables.
 
 ## Create cronjob
 
