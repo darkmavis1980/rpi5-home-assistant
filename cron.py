@@ -1,7 +1,9 @@
 #!/usr/bin/env python
+"""Cron module to be used with crontab -e"""
 
 import time
 from datetime import datetime
+import pymysql
 from influxdb_client import Point, WritePrecision
 from lib.sensor import Sensor
 from lib.db import write_influx_db, get_db
@@ -34,7 +36,9 @@ def read_temperature_data():
                 pressure = sensor.pressure
 
                 print(f"{temperature:05.2f}°C {pressure:05.2f}hPa {humidity:05.2f}%")
-                sql = "INSERT INTO `measurements` (`temperature`, `humidity`, `pressure`, `room_id`) VALUES (%s, %s, %s, %s)"
+                sql = """INSERT INTO `measurements`
+                (`temperature`, `humidity`, `pressure`, `room_id`) 
+                VALUES (%s, %s, %s, %s)"""
                 cursor.execute(sql, (temperature, humidity, pressure, room_id))
             # connection is not autocommit by default. So you must commit to save
             # your changes.
@@ -48,7 +52,7 @@ def read_temperature_data():
                     .field("humidity", humidity) \
                     .time(datetime.utcnow(), WritePrecision.NS)
                 write_influx_db(point)
-    except:
+    except pymysql.Error:
         print("Cannot save to the db")
 
 
