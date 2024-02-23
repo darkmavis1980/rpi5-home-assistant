@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+"""Weather library"""
 
 import json
+import sys
 import redis
 from lib.conf import get_config
 
@@ -9,12 +11,12 @@ config = get_config()
 try:
     import requests
 except ImportError:
-    exit("This script requires the requests module\nInstall with: sudo pip install requests")
+    sys.exit("This script requires the requests module\nInstall with: sudo pip install requests")
 
 try:
     import geocoder
 except ImportError:
-    exit("This script requires the geocoder module\nInstall with: sudo pip install geocoder")
+    sys.exit("This script requires the geocoder module\nInstall with: sudo pip install geocoder")
 
 # Address
 CITY = "Dublin"
@@ -106,7 +108,8 @@ def get_weather(address: str):
     """Query OpenMeteo (https://open-meteo.com) to get current weather data"""
     coords = get_coords(address)
     weather = {}
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={str(coords[0])}&longitude={str(coords[1])}&current_weather=true"
+    url = (f"https://api.open-meteo.com/v1/forecast?latitude={str(coords[0])}"
+            f"&longitude={str(coords[1])}&current_weather=true")
     res = requests.get(url, timeout=2)
     if res.status_code == 200:
         j = json.loads(res.text)
@@ -117,9 +120,7 @@ def get_weather(address: str):
         weather["weathercode"] = current["weathercode"]
         weather["icon"] = get_weather_icon(current["weathercode"])
         weather["icon_detailed"] = get_weather_icon_detailed(current["weathercode"])
-        return weather
-    else:
-        return weather
+    return weather
 
 def get_forecasts():
     """Get the forecast with the current address"""

@@ -1,3 +1,4 @@
+"""Room functions"""
 from lib.db import query_db
 from models.measurement import Measurement
 from models.room import Room
@@ -42,7 +43,7 @@ def get_rooms() -> list[Room]:
 def read_last_room_temperature(room_id: int) -> Measurement:
     """Read the last temperature for a given room"""
     sql = "SELECT * FROM measurements WHERE room_id = %s ORDER BY created_at DESC LIMIT 1"
-    cursor = query_db(sql, room_id)  
+    cursor = query_db(sql, room_id)
     result = cursor.fetchone()
     item = Measurement(**{
         "id": result['id'],

@@ -1,12 +1,11 @@
+"""Sensor class module"""
 import bme680
-from time import sleep
 from smbus2 import SMBus
 from bme280 import BME280
 
 class Sensor:
     """Sensor class to handle both bme280 and bme680 sensors"""
     bme_sensor = None
-    
     temperature = 0
     humidity = 0
     pressure = 0
@@ -44,4 +43,3 @@ class Sensor:
             self.bme_sensor.set_pressure_oversample(bme680.OS_4X)
             self.bme_sensor.set_temperature_oversample(bme680.OS_8X)
             self.bme_sensor.set_filter(bme680.FILTER_SIZE_3)
-

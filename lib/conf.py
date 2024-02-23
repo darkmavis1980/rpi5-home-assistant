@@ -1,3 +1,4 @@
+"""Configparser module"""
 import configparser
 
 def get_config():

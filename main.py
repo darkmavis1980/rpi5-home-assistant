@@ -1,8 +1,9 @@
+"""Main application module"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from lib.room import get_room_by_id, read_last_room_temperature, read_room_temperatures, get_rooms
 from lib.weather import get_forecasts
-from models.room import Room, RoomWithTemperature
+from models.room import RoomWithTemperature
 
 app = FastAPI()
 
@@ -39,15 +40,15 @@ def read_current_temperature(room_id: int) -> RoomWithTemperature:
     room['current'] = temperatures
     return room
 
-@app.post("/rooms/")
-def create_room(room: Room):
-    """Create a new room in the database"""
-    pass
+# @app.post("/rooms/")
+# def create_room(room: Room):
+#     """Create a new room in the database"""
+#     pass
 
-@app.put("/rooms/{room_id}")
-def update_room(room_id: int, room: Room):
-    """Update an existing room"""
-    pass
+# @app.put("/rooms/{room_id}")
+# def update_room(room_id: int, room: Room):
+#     """Update an existing room"""
+#     pass
 
 @app.get("/forecast")
 def get_weather_forecast():
