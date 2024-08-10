@@ -3,6 +3,7 @@
 
 import time
 from datetime import datetime
+import requests
 import pymysql
 from influxdb_client import Point, WritePrecision
 from lib.sensor import Sensor
@@ -54,6 +55,20 @@ def read_temperature_data():
                 write_influx_db(point)
     except pymysql.Error:
         print("Cannot save to the db")
+
+    use_agent = config.get('AGENT', 'USE_AGENT')
+    if use_agent:
+        agent_url = config.get('AGENT', 'URL')
+        agent_token = config.get('AGENT', 'TOKEN')
+        requests.post(agent_url, json={
+            'temperature': temperature,
+            'humidity': humidity,
+            'pressure': pressure,
+        },
+        timeout=5,
+        headers={
+            'Authorization': f'Bearer ${agent_token}'
+        })
 
 
 if __name__ == "__main__":
