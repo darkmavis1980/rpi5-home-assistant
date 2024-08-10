@@ -57,7 +57,7 @@ def read_temperature_data():
         print("Cannot save to the db")
 
     use_agent = config.get('AGENT', 'USE_AGENT')
-    if use_agent:
+    if use_agent == 'yes':
         agent_url = config.get('AGENT', 'URL')
         agent_token = config.get('AGENT', 'TOKEN')
         requests.post(agent_url, json={
