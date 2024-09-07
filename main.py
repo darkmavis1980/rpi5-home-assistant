@@ -1,7 +1,13 @@
 """Main application module"""
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
-from lib.room import get_room_by_id, read_last_room_temperature, read_room_temperatures, get_rooms
+from lib.room import (
+    get_room_by_id,
+    read_last_room_temperature,
+    read_room_temperatures,
+    get_rooms,
+    read_room_history
+)
 from lib.weather import get_forecasts
 from models.room import RoomWithTemperature
 from models.utils import HealthCheck
@@ -53,12 +59,15 @@ def get_list_rooms():
     return results
 
 @app.get("/rooms/{room_id}/current")
-def read_current_temperature(room_id: int) -> RoomWithTemperature:
+def read_current_temperature(room_id: int, history: bool = False, history_hours: int = 24) -> RoomWithTemperature:
     """Fetch the curren temperature from a room"""
-    temperatures = read_last_room_temperature(room_id)
+    temperatures = read_last_room_temperature(room_id)       
     room = get_room_by_id(room_id)
 
     room['current'] = temperatures
+    if history:
+        history = read_room_history(room_id, history_hours)
+        room['history'] = history
     return room
 
 # @app.post("/rooms/")

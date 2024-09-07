@@ -16,3 +16,4 @@ class RoomWithTemperature(Room):
     """Room model with temperature fields"""
     temperatures: Optional[List[Measurement]] = None
     current: Optional[Measurement] = None
+    history: Optional[List[Measurement]] = None
