@@ -58,7 +58,13 @@ def read_last_room_temperature(room_id: int) -> Measurement:
 
 def read_room_history(room_id: int, hours: int) -> List[Measurement]:
     """Return the history of a room"""
-    sql = "SELECT * FROM measurements m WHERE m.room_id = %s AND m.created_at >= (NOW() - INTERVAL %s HOUR) ORDER BY m.created_at DESC"
+    sql = """
+    SELECT * 
+    FROM measurements m 
+    WHERE m.room_id = %s 
+    AND m.created_at >= (NOW() - INTERVAL %s HOUR) 
+    ORDER BY m.created_at DESC
+    """
     cursor = query_db(sql, (room_id, hours))
     result = cursor.fetchall()
     return result
