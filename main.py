@@ -46,7 +46,7 @@ def read_room_data(room_id: int):
     room.temperatures = results
     return room
 
-@app.get("/rooms/")
+@app.get("/rooms")
 def get_list_rooms():
     """Get the list of rooms"""
     results = get_rooms()

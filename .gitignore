@@ -5,3 +5,4 @@ conf.ini
 supervisord.*
 !supervisord.conf
 .env
+backup/
