@@ -59,9 +59,13 @@ def get_list_rooms():
     return results
 
 @app.get("/rooms/{room_id}/current")
-def read_current_temperature(room_id: int, history: bool = False, history_hours: int = 24) -> RoomWithTemperature:
+def read_current_temperature(
+    room_id: int,
+    history: bool = False,
+    history_hours: int = 24
+) -> RoomWithTemperature:
     """Fetch the curren temperature from a room"""
-    temperatures = read_last_room_temperature(room_id)       
+    temperatures = read_last_room_temperature(room_id)
     room = get_room_by_id(room_id)
 
     room['current'] = temperatures
